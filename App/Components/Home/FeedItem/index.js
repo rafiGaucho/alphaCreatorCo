@@ -5,27 +5,44 @@ import {
 } from 'react-native';
 import {Icon} from 'native-base' ;
 import ViewMoreText from 'react-native-view-more-text';
+import Video from 'react-native-video';
 
 import{heightScreen} from '../../../ScreenInfo'
+import {Media} from './Media'
 
-export default class  extends React.Component {
+export default class FeedItem  extends React.Component {
   constructor(props) {
     super(props);
 
   }
   renderViewMore(onPress){
     return(
-      <Text onPress={onPress}>View more</Text>
+      <Text style={{color:'#212121'}} onPress={onPress}>Show more</Text>
     )
   }
   renderViewLess(onPress){
     return(
-      <Text onPress={onPress}>View less</Text>
+      <Text style={{color:'#212121'}} onPress={onPress}>Show less</Text>
     )
   }
+  tConv24(time24) {
+    var ts = time24;
+    var H = +ts.substr(0, 2);
+    var h = (H % 12) || 12;
+    h = (h < 10)?("0"+h):h;  // leading 0 at the left for 1 digit hours
+    var ampm = H < 12 ? " AM" : " PM";
+    ts = h + ts.substr(2, 3) + ampm;
+    return ts;
+  };
+
   render() {
     item=this.props.prop
-    console.warn(item);
+    array=item.updatedAt.split('T')
+    datearray=array[0].split('-')
+    date=datearray[2] + '/' + datearray[1] + '/' + datearray[0];
+    time=array[1].split('.')[0]
+    timeIn12=this.tConv24(time)
+    paused=true
     return (
       <View style={{width:'100%',backgroundColor:'white'}}>
 
@@ -35,13 +52,15 @@ export default class  extends React.Component {
             marginLeft:'3%'}}>
             <Image style={{height:heightScreen*2,width:heightScreen*2,borderRadius:heightScreen,}}  source={{uri:item.thumbnail}}/>
           </View>
-          <View style={{alignItems:'center',justifyContent:'center',marginLeft:'3%'}}>
+          <View style={{alignItems:'flex-start',justifyContent:'center',marginLeft:'3%'}}>
             <Text style={{color:'black',fontSize:16,fontWeight:'400'}}>Faizan Sayed</Text>
-            <Text style={{color:'black',fontSize:11}}>2/12/1212,5:06:06 PM</Text>
+            <Text style={{color:'black',fontSize:11}}>{date} , {timeIn12}</Text>
           </View>
         </View>
 
-        <View style={{height:heightScreen*7,width:'100%',backgroundColor:'grey'}}></View>
+        <View style={{height:heightScreen*8,width:'100%',alignItems:'center',backgroundColor:'silver'}}>
+          <Media prop={item.content[0]} paused={paused}/>
+        </View>
 
         <View style={{height:heightScreen*1.5,flexDirection:'row',backgroundColor:'white',alignItems:'center',justifyContent:'space-between'}}>
           <View style={{flexDirection:'row',marginLeft:'3%',alignItems:'center'}}>
@@ -63,17 +82,23 @@ export default class  extends React.Component {
           </View>
         </View>
 
-        <View style={{width:'100%',marginLeft:'5%',marginBottom:'5%'}}>
-          <Text style={{fontSize:17}}>{item.title}</Text>
+        <View style={{width:'95%',marginLeft:'2%',marginBottom:'3%'}}>
+          <Text style={{fontSize:15,fontWeight:'400'}}>{item.title}</Text>
           <ViewMoreText
-           numberOfLines={3}
+           numberOfLines={2}
            renderViewMore={this.renderViewMore}
            renderViewLess={this.renderViewLess}
-           textStyle={{textAlign: 'center'}}
+           textStyle={{}}
            >
-           <Text>{item.description}</Text>
+           <Text style={{overflow:'hidden'}}>{item.description}</Text>
           </ViewMoreText>
-          <Text style={{marginTop:'5%',color:'#ffb74d'}}>#raenaspeaks #beauty #honestreview </Text>
+          <View style={{flexDirection:'row'}}>
+            {item.tags.map((tag,index)=>{
+              return (
+                <Text style={{marginTop:'3%',color:'#ffb74d',}}>#{tag} </Text>
+              );
+            })}
+          </View>
         </View>
       </View>
     );

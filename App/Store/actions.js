@@ -11,7 +11,6 @@ export const fetchFeed=()=>{
     })
     .then(res=>{
       dispatch({type:'LOAD-DATA' , payload:res.result})
-      console.warn(res.result);
     })
     .catch(err=>{
       dispatch({type:'ERROR' , payload:err})

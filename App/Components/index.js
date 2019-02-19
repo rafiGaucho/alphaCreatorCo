@@ -32,6 +32,7 @@ const BottomNavigator = createMaterialBottomTabNavigator({
 
 }, {
   initialRouteName: 'Home',
+  // swipeEnabled:true,
   shifting:false,
   activeColor: '#ff9100',
   inactiveColor: 'grey',

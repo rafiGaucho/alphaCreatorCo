@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {
-  View,Text,
+  View,Text,FlatList,
   StyleSheet,Image,ScrollView
 } from 'react-native';
 import {Icon} from 'native-base'
@@ -10,6 +10,13 @@ import FeedItem from './FeedItem'
 
 
 class Home  extends React.Component {
+ //  static getDerivedStateFromProps(nextProps, prevState) {
+ //  return {
+ //    ...prevState,
+ //    videoPaused: !nextProps.navigation.isFocused()
+ //  }
+ // }
+
   static navigationOptions={
     title:'Home',
     tabBarIcon:({focused,horizontal,tintColor})=>{
@@ -18,13 +25,21 @@ class Home  extends React.Component {
   }
   constructor(props) {
     super(props);
-    console.warn(this.props.feed);
+    this.viewabilityConfig = {
+      waitForInteraction: true,
+      viewAreaCoveragePercentThreshold: 100
+    }
+    this.state={changed:{viewableItems:[{index:0}]}}
   }
-
+  onViewableItemsChanged = (changed) => {
+   this.setState({changed})
+  }
+onEndReached=()=>{console.warn('lkmlmlkmklmkm');}
   render() {
+
     return (
-      <View>
-        <ScrollView>
+      <View style={{flex:1}}>
+        {/* <ScrollView>
           {this.props.feed.map((item,index)=>{
             return (
               <View>
@@ -32,7 +47,15 @@ class Home  extends React.Component {
               </View>
             );
           })}
-        </ScrollView>
+        </ScrollView> */}
+        <FlatList
+          data={this.props.feed}
+          renderItem={({item,index}) => <FeedItem prop={item} index={index} visibility={this.state.changed}/>}
+          ListFooterComponent={({item})=><View style={{height:300,width:300}}><Text>End</Text></View>}
+          onEndReached={this.onEndReached}
+          viewabilityConfig={this.viewabilityConfig}
+          onViewableItemsChanged={this.onViewableItemsChanged}
+        />
       </View>
     );
   }
