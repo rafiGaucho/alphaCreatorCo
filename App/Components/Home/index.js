@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {
-  View,Text,FlatList,ListView,
+  View,Text,ActivityIndicator,ListView,
   StyleSheet,Image,ScrollView
 } from 'react-native';
 import {Icon} from 'native-base'
@@ -35,15 +35,23 @@ class Home  extends React.Component {
         <ListView
         dataSource={this.props.feed}
         renderRow={(rowData) => <FeedItem prop={rowData} />}
-        renderFooter={()=> <View style={{height:500}}></View>}
-        scrollRenderAheadDistance={100}
+        renderFooter={()=> <View style={{height:500,alignItems:'center',justifyContent:'flex-start'}}>
+          {this.props.isLoading && <ActivityIndicator size="large" color="#0000ff"/>}
+          {this.props.isError && <Text>Network Error</Text>}
+        </View>}
         />
-
+        {/* <ScrollView>
+          {this.props.feed.map((item,index)=>{
+            return  <FeedItem key={index} prop={item} />
+          })}
+        </ScrollView>
+          {this.props.isLoading && <ActivityIndicator size="large" color="#0000ff"/>}
+          {this.props.isError && <Text>Network Error</Text>} */}
       </View>
     );
   }
 }
 mapStateToProps=(state)=>({
-  feed:state.feed
+  feed:state.feed,isLoading:state.isLoading,isError:state.isError
 })
 export default connect(mapStateToProps)(Home)

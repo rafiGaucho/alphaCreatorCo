@@ -44,6 +44,7 @@ const initialState={
             "title": "Beat Indonesian Heat with this routine"
         }]),
   error:null,
+  isLoading:false,isError:false
 }
 
 
@@ -53,7 +54,11 @@ const session=(state=initialState,action)=>{
     feed: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(action.payload)}
 
   break;
-  case 'ERROR':return {...state,error:action.payload,feed:[2,2,2,2]}
+  case 'ERROR':return {...state,error:action.payload,isError:true,isLoading:false}
+  break;
+  case 'ENABLE-LOADING':return {...state,isLoading:true}
+  break;
+  case 'DISABLE-LOADING':return {...state,isLoading:false}
   break;
   default: return state;
   }
