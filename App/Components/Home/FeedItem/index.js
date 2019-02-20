@@ -95,7 +95,7 @@ export default class FeedItem  extends React.Component {
           <View style={{flexDirection:'row'}}>
             {item.tags.map((tag,index)=>{
               return (
-                <Text style={{marginTop:'3%',color:'#ffb74d',}}>#{tag} </Text>
+                <Text key={index} style={{marginTop:'3%',color:'#ffb74d',}}>#{tag} </Text>
               );
             })}
           </View>

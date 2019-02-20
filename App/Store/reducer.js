@@ -44,15 +44,13 @@ const initialState={
             "title": "Beat Indonesian Heat with this routine"
         }]),
   error:null,
-  ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
-
 }
 
 
 const session=(state=initialState,action)=>{
  switch (action.type) {
   case 'LOAD-DATA':return {...state,
-    feed: state.ds.cloneWithRows(action.payload)}
+    feed: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows(action.payload)}
 
   break;
   case 'ERROR':return {...state,error:action.payload,feed:[2,2,2,2]}
