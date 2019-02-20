@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {
   View,Text,ActivityIndicator,ListView,
-  StyleSheet,Image,ScrollView
+  StyleSheet,Image,ScrollView,FlatList
 } from 'react-native';
 import {Icon} from 'native-base'
 import {connect} from 'react-redux'
@@ -25,6 +25,7 @@ class Home  extends React.Component {
   }
   constructor(props) {
     super(props);
+
   }
 
   render() {
@@ -35,11 +36,21 @@ class Home  extends React.Component {
         <ListView
         dataSource={this.props.feed}
         renderRow={(rowData) => <FeedItem prop={rowData} />}
-        renderFooter={()=> <View style={{height:500,alignItems:'center',justifyContent:'flex-start'}}>
+        renderFooter={()=>
+           <View style={{height:300,alignItems:'center',justifyContent:'flex-start'}}>
           {this.props.isLoading && <ActivityIndicator size="large" color="#0000ff"/>}
           {this.props.isError && <Text>Network Error</Text>}
         </View>}
         />
+        {/* <FlatList
+          data={this.props.feed}
+          renderItem={({item,index}) => <FeedItem prop={item} key={index} />}
+          ListFooterComponent={({item})=><View style={{height:500,alignItems:'center',justifyContent:'flex-start'}}>
+            {this.props.isLoading && <ActivityIndicator size="large" color="#0000ff"/>}
+            {this.props.isError && <Text>Network Error</Text>}
+          </View>}
+
+        /> */}
         {/* <ScrollView>
           {this.props.feed.map((item,index)=>{
             return  <FeedItem key={index} prop={item} />

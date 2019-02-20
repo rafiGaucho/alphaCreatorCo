@@ -37,6 +37,12 @@ export const Media=(props)=>{
   }
   else if (item.type===1) {
   url=item.url.split('v=')
+  if (item.url===undefined) {
+    url=['','ixUQCxeIGYc']
+  }
+  else if (item.url==='undefined') {
+    url=['','ixUQCxeIGYc']
+  }
   return (
     <YouTube
       apiKey="AIzaSyBnbTVang-UdpBeXsI8BL6J2pAaVgbKc08"
@@ -49,6 +55,12 @@ export const Media=(props)=>{
   }
   else if (item.type===3) {
   url=item.url.split('be/')
+  if (item.url===undefined) {
+    url=['','ixUQCxeIGYc']
+  }
+  else if (item.url==='undefined') {
+    url=['','ixUQCxeIGYc']
+  }
   return (
     <YouTube
       apiKey="AIzaSyBnbTVang-UdpBeXsI8BL6J2pAaVgbKc08"
