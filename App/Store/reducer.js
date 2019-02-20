@@ -1,7 +1,10 @@
 export * from './actions'
-
+import {
+  View,
+  StyleSheet,ListView
+} from 'react-native';
 const initialState={
-  feed:[ {
+  feed:new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}).cloneWithRows([ {
             "_id": "5c2d068ae7179a49f40b35e2",
             "__v": 94,
             "createdAt": "2019-01-15T11:00:42.633Z",
@@ -39,14 +42,18 @@ const initialState={
             "whatsappShareCount": 87,
             "description": "Big Buck Bunny tells the story of a giant rabbit with a heart bigger than himself. When one sunny day three rodents rudely harass him, something snaps... and the rabbit ain't no bunny anymore! In the typical cartoon tradition he prepares the nasty rodents a comical revenge. Licensed under the Creative Commons Attribution license http://www.bigbuckbunny.org",
             "title": "Beat Indonesian Heat with this routine"
-        }],
-  error:null
+        }]),
+  error:null,
+  ds: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+
 }
 
 
 const session=(state=initialState,action)=>{
  switch (action.type) {
-  case 'LOAD-DATA':return {...state,feed:action.payload}
+  case 'LOAD-DATA':return {...state,
+    feed: state.ds.cloneWithRows(action.payload)}
+
   break;
   case 'ERROR':return {...state,error:action.payload,feed:[2,2,2,2]}
   break;
